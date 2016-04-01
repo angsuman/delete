@@ -4,7 +4,7 @@ public class Delete {
     for(String path : paths) if(path != null) delete(new File(path));
   }
   
-  /** Delete a file / directory on best effort basis */
+  /** Recursively delete Directory and File on best effort basis */
   public static void delete(File file) {
     if(file != null && file.exists()) {
       if(file.isFile()) tryDelete(file);
@@ -16,7 +16,13 @@ public class Delete {
     }
   }
   
+  /* Delete a File or Directory. On failure schedule it to delete on exit. */
   private static void tryDelete(File file) {
-    if(!file.delete()) file.deleteOnExit();
+    if(!file.delete()) {
+      //System.out.println("Failed, scheduling: " + file);
+      file.deleteOnExit();
+    } else {
+      //System.out.println("Success: " + file);
+    }
   }
 }
