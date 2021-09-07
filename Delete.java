@@ -7,13 +7,8 @@ public class Delete {
   /** Recursively delete Directory and File on best effort basis */
   public static void delete(File file) {
     if(file != null && file.exists()) {
-      if(file.isFile()) {
-        if(!file.delete()) file.deleteOnExit();
-      } else if(file.isDirectory()) {
-        File [] files = file.listFiles();
-        for(File f : files) delete(f);
-        if(!file.delete()) file.deleteOnExit();
-      }
+      if(file.isDirectory()) for(File f : file.listFiles()) delete(f);
+      if(!file.delete()) file.deleteOnExit();
     }
   }
 }
